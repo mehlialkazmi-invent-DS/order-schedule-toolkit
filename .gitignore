@@ -1,0 +1,29 @@
+local_backup/**
+!local_backup/.gitkeep
+
+jira_downloads/raw/**
+!jira_downloads/raw/.gitkeep
+
+jira_downloads/cleaned/**
+!jira_downloads/cleaned/.gitkeep
+
+jira_downloads/manual/**
+!jira_downloads/manual/.gitkeep
+
+output/**
+!output/.gitkeep
+!output/final/
+output/final/**
+!output/final/.gitkeep
+
+.DS_Store
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Local toolkit inputs (copy from config/*.example.*)
+config/local.settings.json
+config/secrets.local.env
+
+# Toolkit-local venv (recreate via README Quick start)
+local_forge_venv/
