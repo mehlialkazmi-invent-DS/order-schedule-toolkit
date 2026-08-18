@@ -931,6 +931,13 @@ def main() -> None:
     dw = DataWorkbench(storage_config={"cloud_provider": "azure", "customer_name": CUSTOMER_NAME})
 
     old_df = dw.storage.read(source=ORDER_DATA_SOURCE).df()
+    # DuckDB auto-detects order_schedule_date as a date column (unlike the old Spark
+    # inferSchema read, which left it as a plain string) — restore the M/D/YYYY format
+    # the rest of this file already uses (see format_schedule_date()) so unchanged rows
+    # round-trip identically instead of silently becoming ISO dates.
+    old_df["order_schedule_date"] = pd.to_datetime(
+        old_df["order_schedule_date"], format="mixed"
+    ).map(format_schedule_date)
     print(f"Loaded {len(old_df):,} rows from {ORDER_DATA_SOURCE}")
 
     order_bak = BACKUP_DIR / f"order_schedule_input_prod_{_backup_stamp()}.csv"
